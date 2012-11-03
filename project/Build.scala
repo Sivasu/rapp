@@ -9,7 +9,8 @@ object ApplicationBuild extends Build {
 
     val appDependencies = Seq(
       // Add your project dependencies here,
-      "org.jsoup" % "jsoup" % "1.7.1"
+      "org.jsoup" % "jsoup" % "1.7.1",
+      "com.googlecode.lambdaj" % "lambdaj" % "2.2"
     )
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(

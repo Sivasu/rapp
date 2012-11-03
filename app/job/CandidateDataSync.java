@@ -2,17 +2,22 @@ package job;
 
 
 import akka.util.Duration;
+import constants.AppProperties;
+import model.StagingCandidateRecord;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import play.libs.Akka;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
-public class CandidateDataSync implements Runnable{
+public class CandidateDataSync implements Runnable {
 
     private static Runnable candidateDataSync;
 
@@ -27,7 +32,7 @@ public class CandidateDataSync implements Runnable{
     }
 
     private static Runnable getInstance() {
-        if(candidateDataSync == null) {
+        if (candidateDataSync == null) {
             candidateDataSync = new CandidateDataSync();
         }
         return candidateDataSync;
@@ -35,27 +40,67 @@ public class CandidateDataSync implements Runnable{
 
     @Override
     public void run() {
-        System.out.println("in run method");
+        List<StagingCandidateRecord> stagingRecords = getStagingRecords();
+        System.out.println("total records = " + stagingRecords.size());
+        HashSet<String> uniqueIds = new HashSet<String>();
+        for (StagingCandidateRecord stagingRecord : stagingRecords) {
+            uniqueIds.add(stagingRecord.personId);
+        }
+        System.out.println("Unique ids "+uniqueIds.size());
+        persistStagingRecords(stagingRecords);
+
+    }
+
+    private void persistStagingRecords(List<StagingCandidateRecord> stagingRecords) {
+
+    }
+
+    private List<StagingCandidateRecord> getStagingRecords() {
+
+        List<StagingCandidateRecord> stagingCandidateRecords = new ArrayList<StagingCandidateRecord>();
         try {
-            Document doc = Jsoup.connect("http://jobs.thoughtworks.com/PublicLists/5EA73BA03FE4D0E5DC82B9EE2C6F16DD").timeout(0).get();
-            System.out.println(doc);
-            Element table = doc.select("table").first();
 
-            Iterator<Element> rows = table.select("tr").iterator();
+            Document doc = Jsoup.connect(AppProperties.CANDIDATE_URL).timeout(0).get();
 
-            while (rows.hasNext()){
+            Iterator<Element> rows = doc.select("table").first().select("tr").iterator();
+            String[] record = new String[17];
+            while (rows.hasNext()) {
                 Element row = rows.next();
                 Iterator<Element> data = row.select("td").iterator();
-                while (data.hasNext()){
-                    Element datum = data.next();
-                    System.out.println(datum.text());
+                int i = 0;
+                while (data.hasNext()) {
+                    record[i] = data.next().text();
+                    i++;
                 }
+
+                stagingCandidateRecords.add(transformRecord(record));
+
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return stagingCandidateRecords;
+    }
 
-        System.out.println("run complete");
-
+    private StagingCandidateRecord transformRecord(String[] record) {
+        StagingCandidateRecord stagingCandidateRecord = new StagingCandidateRecord();
+        stagingCandidateRecord.fullName = record[0];
+        stagingCandidateRecord.personId = record[0];
+        stagingCandidateRecord.source = record[0];
+        stagingCandidateRecord.step = record[0];
+        stagingCandidateRecord.yearsOfExperience = record[0];
+        stagingCandidateRecord.taInReviewDate = record[0];
+        stagingCandidateRecord.reviewerName1 = record[0];
+        stagingCandidateRecord.recommendation1 = record[0];
+        stagingCandidateRecord.dateReceived1 = record[0];
+        stagingCandidateRecord.dateEvaluated1 = record[0];
+        stagingCandidateRecord.language1 = record[0];
+        stagingCandidateRecord.reviewerName2 = record[0];
+        stagingCandidateRecord.recommendation2 = record[0];
+        stagingCandidateRecord.dateReceived2 = record[0];
+        stagingCandidateRecord.dateEvaluated2 = record[0];
+        stagingCandidateRecord.language2 = record[0];
+        stagingCandidateRecord.tags = record[0];
+        return stagingCandidateRecord;
     }
 }
