@@ -1,0 +1,9 @@
+CREATE TABLE tbl_Reviewer (
+ID INT AUTO_INCREMENT PRIMARY KEY,
+Name VARCHAR(50),
+ConsultantID VARCHAR(10) NOT NULL
+);
+
+--//@UNDO
+
+DROP TABLE tbl_Reviewer;
