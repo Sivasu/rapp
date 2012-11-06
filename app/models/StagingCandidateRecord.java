@@ -1,6 +1,5 @@
 package models;
 
-import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
 import javax.persistence.Entity;
@@ -10,9 +9,7 @@ import javax.persistence.Id;
 public class StagingCandidateRecord extends Model {
     @Id
     public Long id;
-    @Constraints.Required
     public String fullName;
-    @Constraints.Required
     public String personId;
     public String source;
     public String step;
@@ -29,4 +26,11 @@ public class StagingCandidateRecord extends Model {
     public String dateEvaluated2;
     public String language2;
     public String tags;
+
+//    public static Finder<Integer,StagingCandidateRecord> find = new Finder<Integer,StagingCandidateRecord>(Integer.class, StagingCandidateRecord.class);
+//
+//
+//    private static StagingCandidateRecord findByPersonId(String personId) {
+//        return find.where().eq("personId", personId).findUnique();
+//    }
 }

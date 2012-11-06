@@ -1,4 +1,4 @@
-package job;
+package jobs;
 
 
 import akka.util.Duration;
@@ -7,11 +7,11 @@ import models.StagingCandidateRecord;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import play.Logger;
 import play.libs.Akka;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -23,7 +23,7 @@ public class CandidateDataSync implements Runnable {
 
     public static void syncCandidateData() {
 
-        System.out.println("syncCandidateData called");
+        Logger.info("syncCandidateData called");
         Akka.system().scheduler().schedule(
                 Duration.create(0, TimeUnit.MILLISECONDS),
                 Duration.create(1, TimeUnit.MINUTES),
@@ -41,18 +41,15 @@ public class CandidateDataSync implements Runnable {
     @Override
     public void run() {
         List<StagingCandidateRecord> stagingRecords = getStagingRecords();
-        System.out.println("total records = " + stagingRecords.size());
-        HashSet<String> uniqueIds = new HashSet<String>();
-        for (StagingCandidateRecord stagingRecord : stagingRecords) {
-            uniqueIds.add(stagingRecord.personId);
-        }
-        System.out.println("Unique ids " + uniqueIds.size());
+        Logger.info("total records = " + stagingRecords.size());
         persistStagingRecords(stagingRecords);
 
     }
 
     private void persistStagingRecords(List<StagingCandidateRecord> stagingRecords) {
-
+        for (StagingCandidateRecord stagingRecord : stagingRecords) {
+            stagingRecord.save();
+        }
     }
 
     private List<StagingCandidateRecord> getStagingRecords() {
@@ -64,6 +61,7 @@ public class CandidateDataSync implements Runnable {
 
             Iterator<Element> rows = doc.select("table").first().select("tr").iterator();
             String[] record = new String[17];
+            rows.next();
             while (rows.hasNext()) {
                 Element row = rows.next();
                 Iterator<Element> data = row.select("td").iterator();
@@ -72,7 +70,6 @@ public class CandidateDataSync implements Runnable {
                     record[i] = data.next().text();
                     i++;
                 }
-
                 stagingCandidateRecords.add(transformRecord(record));
 
             }
@@ -85,22 +82,22 @@ public class CandidateDataSync implements Runnable {
     private StagingCandidateRecord transformRecord(String[] record) {
         StagingCandidateRecord stagingCandidateRecord = new StagingCandidateRecord();
         stagingCandidateRecord.fullName = record[0];
-        stagingCandidateRecord.personId = record[0];
-        stagingCandidateRecord.source = record[0];
-        stagingCandidateRecord.step = record[0];
-        stagingCandidateRecord.yearsOfExperience = record[0];
-        stagingCandidateRecord.taInReviewDate = record[0];
-        stagingCandidateRecord.reviewerName1 = record[0];
-        stagingCandidateRecord.recommendation1 = record[0];
-        stagingCandidateRecord.dateReceived1 = record[0];
-        stagingCandidateRecord.dateEvaluated1 = record[0];
-        stagingCandidateRecord.language1 = record[0];
-        stagingCandidateRecord.reviewerName2 = record[0];
-        stagingCandidateRecord.recommendation2 = record[0];
-        stagingCandidateRecord.dateReceived2 = record[0];
-        stagingCandidateRecord.dateEvaluated2 = record[0];
-        stagingCandidateRecord.language2 = record[0];
-        stagingCandidateRecord.tags = record[0];
+        stagingCandidateRecord.personId = record[1];
+        stagingCandidateRecord.source = record[2];
+        stagingCandidateRecord.step = record[3];
+        stagingCandidateRecord.yearsOfExperience = record[4];
+        stagingCandidateRecord.taInReviewDate = record[5];
+        stagingCandidateRecord.reviewerName1 = record[6];
+        stagingCandidateRecord.recommendation1 = record[7];
+        stagingCandidateRecord.dateReceived1 = record[8];
+        stagingCandidateRecord.dateEvaluated1 = record[9];
+        stagingCandidateRecord.language1 = record[10];
+        stagingCandidateRecord.reviewerName2 = record[11];
+        stagingCandidateRecord.recommendation2 = record[12];
+        stagingCandidateRecord.dateReceived2 = record[13];
+        stagingCandidateRecord.dateEvaluated2 = record[14];
+        stagingCandidateRecord.language2 = record[15];
+        stagingCandidateRecord.tags = record[16];
         return stagingCandidateRecord;
     }
 }
