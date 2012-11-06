@@ -1,14 +1,18 @@
-package model;
+package models;
 
-/**
- * Created with IntelliJ IDEA.
- * User: sathish
- * Date: 11/3/12
- * Time: 9:14 AM
- * To change this template use File | Settings | File Templates.
- */
-public class StagingCandidateRecord {
+import play.data.validation.Constraints;
+import play.db.ebean.Model;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+public class StagingCandidateRecord extends Model {
+    @Id
+    public Long id;
+    @Constraints.Required
     public String fullName;
+    @Constraints.Required
     public String personId;
     public String source;
     public String step;

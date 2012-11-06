@@ -3,7 +3,7 @@ package job;
 
 import akka.util.Duration;
 import constants.AppProperties;
-import model.StagingCandidateRecord;
+import models.StagingCandidateRecord;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -46,7 +46,7 @@ public class CandidateDataSync implements Runnable {
         for (StagingCandidateRecord stagingRecord : stagingRecords) {
             uniqueIds.add(stagingRecord.personId);
         }
-        System.out.println("Unique ids "+uniqueIds.size());
+        System.out.println("Unique ids " + uniqueIds.size());
         persistStagingRecords(stagingRecords);
 
     }
