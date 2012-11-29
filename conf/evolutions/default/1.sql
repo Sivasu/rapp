@@ -10,6 +10,7 @@ create table candidate (
   source                    varchar(255),
   experience                float,
   company                   varchar(255),
+  review_id                 bigint,
   constraint pk_candidate primary key (id))
 ;
 
@@ -35,8 +36,8 @@ create table review (
 
 create table reviewer (
   id                        bigint auto_increment not null,
-  name                      varchar(255),
   consultant_id             varchar(255),
+  name                      varchar(255),
   constraint pk_reviewer primary key (id))
 ;
 
@@ -59,15 +60,18 @@ create table staging_candidate_record (
   date_evaluated2           varchar(255),
   language2                 varchar(255),
   tags                      varchar(255),
+  processed                 tinyint(1) default 0,
   constraint pk_staging_candidate_record primary key (id))
 ;
 
-alter table project_history add constraint fk_project_history_reviewer_1 foreign key (reviewer_id) references reviewer (id) on delete restrict on update restrict;
-create index ix_project_history_reviewer_1 on project_history (reviewer_id);
-alter table review add constraint fk_review_reviewer_2 foreign key (reviewer_id) references reviewer (id) on delete restrict on update restrict;
-create index ix_review_reviewer_2 on review (reviewer_id);
-alter table review add constraint fk_review_candidate_3 foreign key (candidate_id) references candidate (id) on delete restrict on update restrict;
-create index ix_review_candidate_3 on review (candidate_id);
+alter table candidate add constraint fk_candidate_review_1 foreign key (review_id) references review (id) on delete restrict on update restrict;
+create index ix_candidate_review_1 on candidate (review_id);
+alter table project_history add constraint fk_project_history_reviewer_2 foreign key (reviewer_id) references reviewer (id) on delete restrict on update restrict;
+create index ix_project_history_reviewer_2 on project_history (reviewer_id);
+alter table review add constraint fk_review_reviewer_3 foreign key (reviewer_id) references reviewer (id) on delete restrict on update restrict;
+create index ix_review_reviewer_3 on review (reviewer_id);
+alter table review add constraint fk_review_candidate_4 foreign key (candidate_id) references candidate (id) on delete restrict on update restrict;
+create index ix_review_candidate_4 on review (candidate_id);
 
 
 

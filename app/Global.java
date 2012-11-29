@@ -1,5 +1,4 @@
 import jobs.CandidateDataSync;
-import jobs.ConsultantDataSync;
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
@@ -10,7 +9,7 @@ public class Global extends GlobalSettings {
     public void onStart(Application app) {
         Logger.info("Application has started");
         CandidateDataSync.syncCandidateData();
-        ConsultantDataSync.syncConsultantData();
+        //ConsultantDataSync.syncConsultantData();
     }
 
     @Override

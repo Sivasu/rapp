@@ -4,6 +4,7 @@ import play.db.ebean.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.List;
 
 @Entity
 public class StagingCandidateRecord extends Model {
@@ -26,11 +27,17 @@ public class StagingCandidateRecord extends Model {
     public String dateEvaluated2;
     public String language2;
     public String tags;
+    public boolean processed;
 
-//    public static Finder<Integer,StagingCandidateRecord> find = new Finder<Integer,StagingCandidateRecord>(Integer.class, StagingCandidateRecord.class);
-//
-//
-//    private static StagingCandidateRecord findByPersonId(String personId) {
-//        return find.where().eq("personId", personId).findUnique();
-//    }
+    public static Finder<Integer, StagingCandidateRecord> find = new Finder<Integer, StagingCandidateRecord>(Integer.class, StagingCandidateRecord.class);
+
+
+    public static List<StagingCandidateRecord> toProcess() {
+        return find.where().eq("processed", false).findList();
+    }
+
+    private static StagingCandidateRecord findByPersonId(String personId) {
+        return find.where().eq("personId", personId).findUnique();
+    }
+
 }
