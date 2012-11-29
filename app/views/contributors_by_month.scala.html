@@ -1,0 +1,23 @@
+@(message: String)
+
+@main("Welcome to Play 2.0") {
+<script type="text/javascript" src="http://jseasycharts.googlecode.com/files/jseasycharts.min.js"></script>
+<div id="bar7" style="width: 900px; height: 500px;"></div>
+<script type="text/javascript">
+
+    $.getJSON(
+            'contributors_by_month_json',
+            function (data) {
+                jsEasyCharts.bar(
+                        'bar7',
+                        data,
+                        {
+                            type:'vertical',
+                            grouped:true,
+                            size:'350x300'
+                        }
+                );
+            }
+    );
+</script>
+}

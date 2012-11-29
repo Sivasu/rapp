@@ -51,4 +51,8 @@ public class Review extends Model {
             month = new SimpleDateFormat("MMMM").format(startDate);
         return month;
     }
+
+    public String getReviewer() {
+        return reviewer.name;
+    }
 }
