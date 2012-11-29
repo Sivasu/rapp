@@ -41,11 +41,14 @@ public class Review extends Model {
     public Review() {
     }
 
-    private static Group<Review> allReviewsByMonth(String personId) {
+    public static Group<Review> allReviewsByMonth() {
         return group(find.all(), by(on(Review.class).getMonth()));
     }
 
-    private String getMonth() {
-        return new SimpleDateFormat("MMMM").format(endDate);
+    public String getMonth() {
+        String month = "";
+        if (startDate != null)
+            month = new SimpleDateFormat("MMMM").format(startDate);
+        return month;
     }
 }
