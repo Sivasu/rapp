@@ -6,9 +6,9 @@
 GET     /                           controllers.Application.index()
 GET     /reviews_by_month           controllers.ReviewController.reviewsByMonth()
 GET     /contributors_by_month           controllers.ReviewController.contributorsByMonth()
-GET     /reviews_by_month_json      controllers.ReviewController.reviewsByMonthJson()
-GET     /contributors_by_month_json      controllers.ReviewController.contributorsByMonthJson()
-GET     /last_month_contributor      controllers.ReviewController.lastMonthContributorJson()
+GET     /reviews_by_month/json      controllers.ReviewController.reviewsByMonthJson()
+GET     /contributors/between/:from/:to/json      controllers.ReviewController.contributorForPeriodJson(from: String, to: String)
+GET     /average_turn_around/:from/:to/json      controllers.ReviewController.turnAroundDaysForPeriodJson(from: String,to: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

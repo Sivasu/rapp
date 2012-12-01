@@ -11,8 +11,6 @@ import play.mvc.Result;
 import views.html.contributors_by_month;
 import views.html.reviews_by_month;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,21 +61,24 @@ public class ReviewController extends Controller {
     }
 
     @BodyParser.Of(play.mvc.BodyParser.Json.class)
-    public static Result lastMonthContributorJson() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, -1);
-        String lastMonth = new SimpleDateFormat("MMMM").format(calendar.getTime());
-        Group<Review> reviewGroup = Review.allReviewsByMonth();
+    public static Result contributorForPeriodJson(String from, String to) {
+        Group<Review> groupByReviewer = Review.reviewsForPeriodByReviewer(from, to);
         ObjectNode result = Json.newObject();
-        List<Review> reviews = reviewGroup.find(lastMonth);
-        Group<Review> groupByReviewer = group(reviews, by(on(Review.class).getReviewer()));
         Group<Review> reviewer = selectMax(groupByReviewer.subgroups(), on(Group.class).getSize());
         if (reviewer != null && reviewer.findAll().get(0) != null) {
-            Reviewer mostContributorOfTheMonth = reviewer.findAll().get(0).reviewer;
-            Map<String, String> strings = new HashMap<String, String>();
-            strings.put(mostContributorOfTheMonth.name, String.valueOf(reviewer.getSize()));
-            result.put(lastMonth, Json.toJson(strings));
+            Reviewer mostContributor = reviewer.findAll().get(0).reviewer;
+            result.put(mostContributor.name, reviewer.getSize());
         }
         return ok(result);
     }
+
+    @BodyParser.Of(play.mvc.BodyParser.Json.class)
+    public static Result turnAroundDaysForPeriodJson(String from, String to) {
+        double avgTurnAround = Review.averageTurnAroundDaysFor(from, to);
+        ObjectNode result = Json.newObject();
+        result.put("avg_turn_around", avgTurnAround);
+        return ok(result);
+    }
+
+
 }
