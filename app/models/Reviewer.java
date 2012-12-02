@@ -1,5 +1,8 @@
 package models;
 
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
@@ -8,7 +11,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import static ch.lambdaj.Lambda.filter;
 
 @Entity
 public class Reviewer extends Model {
@@ -33,5 +39,27 @@ public class Reviewer extends Model {
         if (!this.reviews.contains(review)) {
             this.reviews.add(review);
         }
+    }
+
+    public String projectNameForDate(final Date date) {
+        Reviewer reviewer = find.byId(this.id.intValue());
+
+        Matcher<ProjectHistory> projectBetween = new BaseMatcher<ProjectHistory>() {
+
+            @Override
+            public boolean matches(Object o) {
+                ProjectHistory projectHistory = (ProjectHistory) o;
+                return projectHistory.startDate.before(date) && projectHistory.endDate.after(date);
+
+            }
+
+            @Override
+            public void describeTo(Description description) {
+            }
+        };
+        List<ProjectHistory> filter = filter((Matcher<ProjectHistory>) projectBetween, reviewer.projectHistories);
+        if (filter.size() > 0)
+            return filter.get(0).projectName;
+        return "UNASSIGNED";
     }
 }

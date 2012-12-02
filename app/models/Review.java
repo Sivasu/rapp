@@ -73,4 +73,12 @@ public class Review extends Model {
     public static Group<Review> reviewsForPeriodByReviewer(String from, String to) {
         return group(finder.select("reviewer").where().between("startDate", from, to).findList(), by(on(Review.class).getReviewer()));
     }
+
+    public static Group<Review> reviewersForPeriodByProject(String from, String to) {
+        return group(finder.select("reviewer").where().between("startDate", from, to).findList(), by(on(Review.class).getReviewerProject()));
+    }
+
+    public String getReviewerProject() {
+        return reviewer.projectNameForDate(this.startDate);
+    }
 }

@@ -1,0 +1,25 @@
+@(message: String)
+
+@main("Welcome to Play 2.0") {
+<script type="text/javascript" src="http://jseasycharts.googlecode.com/files/jseasycharts.min.js"></script>
+<div id="chart" style="width: 1500px; height: 600px;"></div>
+<script type="text/javascript">
+    $.getJSON(
+            'project_contributions/2012-01-01/2012-12-01/json',
+            function (data) {
+                var keys = [];
+                for (var key in data) {
+                    keys.push(key + '-' + data[key]);
+                }
+                jsEasyCharts.pie(
+                        'chart',
+                        data,
+                        {
+                            labels:keys,
+                            size:'750x300'
+                        }
+                );
+            }
+    );
+</script>
+}

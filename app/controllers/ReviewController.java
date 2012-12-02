@@ -9,6 +9,7 @@ import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.contributors_by_month;
+import views.html.project_contributions;
 import views.html.reviews_by_month;
 
 import java.util.HashMap;
@@ -29,6 +30,10 @@ public class ReviewController extends Controller {
 
     public static Result contributorsByMonth() {
         return ok(contributors_by_month.render(""));
+    }
+
+    public static Result projectContributions() {
+        return ok(project_contributions.render(""));
     }
 
     @BodyParser.Of(play.mvc.BodyParser.Json.class)
@@ -77,6 +82,18 @@ public class ReviewController extends Controller {
         double avgTurnAround = Review.averageTurnAroundDaysFor(from, to);
         ObjectNode result = Json.newObject();
         result.put("avg_turn_around", avgTurnAround);
+        return ok(result);
+    }
+
+    @BodyParser.Of(play.mvc.BodyParser.Json.class)
+    public static Result projectContributionJson(String from, String to) {
+        ObjectNode result = Json.newObject();
+        Group<Review> reviewGroup = Review.reviewersForPeriodByProject(from, to);
+        for (String groupKey : reviewGroup.keySet()) {
+            List<Review> reviews = reviewGroup.find(groupKey);
+            groupKey = groupKey.replace("\"", "");
+            result.put(groupKey, reviews.size());
+        }
         return ok(result);
     }
 
