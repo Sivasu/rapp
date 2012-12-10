@@ -5,10 +5,7 @@ import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import play.db.ebean.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +22,7 @@ public class Review extends Model {
     @ManyToOne
     public Reviewer reviewer;
     @OneToOne
+    @JoinColumn(name = "candidate_id", nullable = false)
     public Candidate candidate;
     public String technology;
     public Date startDate;

@@ -3,6 +3,7 @@ package models;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -12,22 +13,22 @@ public class Candidate extends Model {
     @Id
     public Long id;
     @Constraints.Required
-    public String candidateId;
+    public String personId;
     public String name;
     public String source;
     public Float experience;
     public String company;
-    @OneToOne
+    @OneToOne(mappedBy = "candidate", cascade = CascadeType.ALL)
     public Review review;
 
     public static Finder<Integer, Candidate> find = new Finder<Integer, Candidate>(Integer.class, Candidate.class);
 
     public Candidate(String personId) {
-        this.candidateId = personId;
+        this.personId = personId;
     }
 
     public static Candidate findOrCreate(String personId) {
-        Candidate candidate = find.where().eq("candidateId", personId).findUnique();
+        Candidate candidate = find.where().eq("personId", personId).findUnique();
         return candidate == null ? newCandidate(personId) : candidate;
     }
 
