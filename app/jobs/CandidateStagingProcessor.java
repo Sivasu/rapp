@@ -25,7 +25,8 @@ public class CandidateStagingProcessor {
                     updateReviewer(reviewer, review);
                 }
             } catch (ParseException e) {
-                Logger.error("Error while processing record of " + stagingCandidateRecord.fullName + ", Exception " + e);
+                e.printStackTrace();
+                System.out.println(stagingCandidateRecord.personId);
             }
             stagingCandidateRecord.processed = true;
             stagingCandidateRecord.update();
@@ -39,14 +40,19 @@ public class CandidateStagingProcessor {
         candidate.review.startDate = startDate(stagingCandidateRecord);
         candidate.review.endDate = endDate(stagingCandidateRecord);
         candidate.review.result = result(stagingCandidateRecord);
+        candidate.review.technology = language(stagingCandidateRecord);
         candidate.update();
         return candidate.review;
+    }
+
+    private String language(StagingCandidateRecord stagingCandidateRecord) {
+        return stagingCandidateRecord.language1 == null || "".equals(stagingCandidateRecord.language1.trim())
+                ? stagingCandidateRecord.language2 : stagingCandidateRecord.language1;
     }
 
     private Candidate updateCandidate(StagingCandidateRecord stagingCandidateRecord) {
         Candidate candidate = Candidate.findOrCreate(stagingCandidateRecord.personId);
         candidate.experience = experience(stagingCandidateRecord);
-        candidate.name = stagingCandidateRecord.fullName;
         candidate.source = stagingCandidateRecord.source;
         candidate.update();
         return candidate;
@@ -58,21 +64,27 @@ public class CandidateStagingProcessor {
     }
 
     private boolean result(StagingCandidateRecord stagingCandidateRecord) {
-        return stagingCandidateRecord.recommendation1 != null
-                ? stagingCandidateRecord.recommendation1.equals("Pursue") : stagingCandidateRecord.recommendation2.equals("Pursue");
+        return stagingCandidateRecord.recommendation1 == null || "".equals(stagingCandidateRecord.recommendation1.trim())
+                ? stagingCandidateRecord.recommendation2.equals("Pursue") : stagingCandidateRecord.recommendation1.equals("Pursue");
     }
 
     private Date startDate(StagingCandidateRecord stagingCandidateRecord) throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
-        String startDate = stagingCandidateRecord.dateReceived1 == null ?
-                stagingCandidateRecord.dateReceived2 : stagingCandidateRecord.dateReceived1;
 
-        return simpleDateFormat.parse(startDate);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return stagingCandidateRecord.taInReviewDate == null || "".equals(stagingCandidateRecord.taInReviewDate.trim())
+                ? startDateByReviewer(stagingCandidateRecord) : simpleDateFormat.parse(stagingCandidateRecord.taInReviewDate);
+    }
+
+    private Date startDateByReviewer(StagingCandidateRecord stagingCandidateRecord) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+        String startDate = stagingCandidateRecord.dateReceived1 == null || "".equals(stagingCandidateRecord.dateReceived1.trim()) ?
+                stagingCandidateRecord.dateReceived2 : stagingCandidateRecord.dateReceived1;
+        return startDate == null || "".equals(startDate.trim()) ? null : simpleDateFormat.parse(startDate);
     }
 
     private Date endDate(StagingCandidateRecord stagingCandidateRecord) throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
-        String endDate = stagingCandidateRecord.dateEvaluated1 == null ?
+        String endDate = stagingCandidateRecord.dateEvaluated1 == null || "".equals(stagingCandidateRecord.dateEvaluated1.trim()) ?
                 stagingCandidateRecord.dateEvaluated2 : stagingCandidateRecord.dateEvaluated1;
 
         return simpleDateFormat.parse(endDate);

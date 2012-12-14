@@ -14,7 +14,6 @@ public class Candidate extends Model {
     public Long id;
     @Constraints.Required
     public String personId;
-    public String name;
     public String source;
     public Float experience;
     public String company;

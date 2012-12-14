@@ -54,23 +54,22 @@ public class CandidateStagingSync {
 
     private StagingCandidateRecord transformRecord(String[] record) {
         StagingCandidateRecord stagingCandidateRecord = new StagingCandidateRecord();
-        stagingCandidateRecord.fullName = record[0];
-        stagingCandidateRecord.personId = record[1];
-        stagingCandidateRecord.source = record[2];
-        stagingCandidateRecord.step = record[3];
-        stagingCandidateRecord.yearsOfExperience = record[4];
-        stagingCandidateRecord.taInReviewDate = record[5];
-        stagingCandidateRecord.reviewerName1 = record[6];
-        stagingCandidateRecord.recommendation1 = record[7];
-        stagingCandidateRecord.dateReceived1 = record[8];
-        stagingCandidateRecord.dateEvaluated1 = record[9];
-        stagingCandidateRecord.language1 = record[10];
-        stagingCandidateRecord.reviewerName2 = record[11];
-        stagingCandidateRecord.recommendation2 = record[12];
-        stagingCandidateRecord.dateReceived2 = record[13];
-        stagingCandidateRecord.dateEvaluated2 = record[14];
-        stagingCandidateRecord.language2 = record[15];
-        stagingCandidateRecord.tags = record[16];
+        stagingCandidateRecord.personId = record[0];
+        stagingCandidateRecord.source = record[1];
+        stagingCandidateRecord.step = record[2];
+        stagingCandidateRecord.yearsOfExperience = record[3];
+        stagingCandidateRecord.taInReviewDate = record[4].replaceAll("[\\s\\u00A0]+$", " ");
+        stagingCandidateRecord.reviewerName1 = record[5].replaceAll("[\\s\\u00A0]+$", " ");
+        stagingCandidateRecord.recommendation1 = record[6].replaceAll("[\\s\\u00A0]+$", " ");
+        stagingCandidateRecord.dateReceived1 = record[7].replaceAll("[\\s\\u00A0]+$", " ");
+        stagingCandidateRecord.dateEvaluated1 = record[8].replaceAll("[\\s\\u00A0]+$", " ");
+        stagingCandidateRecord.language1 = record[9].replaceAll("[\\s\\u00A0]+$", " ");
+        stagingCandidateRecord.reviewerName2 = record[10].replaceAll("[\\s\\u00A0]+$", " ");
+        stagingCandidateRecord.recommendation2 = record[11];
+        stagingCandidateRecord.dateReceived2 = record[12].replaceAll("[\\s\\u00A0]+$", " ");
+        stagingCandidateRecord.dateEvaluated2 = record[13].replaceAll("[\\s\\u00A0]+$", " ");
+        stagingCandidateRecord.language2 = record[14].replaceAll("[\\s\\u00A0]+$", " ");
+        stagingCandidateRecord.tags = record[15].replaceAll("[\\s\\u00A0]+$", " ");
         return stagingCandidateRecord;
     }
 }
