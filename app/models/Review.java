@@ -14,6 +14,8 @@ import static ch.lambdaj.Lambda.on;
 import static ch.lambdaj.Lambda.sumFrom;
 import static ch.lambdaj.group.Groups.by;
 import static ch.lambdaj.group.Groups.group;
+import static com.avaje.ebean.Expr.between;
+import static com.avaje.ebean.Expr.ne;
 
 @Entity
 public class Review extends Model {
@@ -69,7 +71,7 @@ public class Review extends Model {
     }
 
     public static Group<Review> reviewsForPeriodByReviewer(String from, String to) {
-        return group(finder.select("reviewer").where().between("startDate", from, to).findList(), by(on(Review.class).getReviewer()));
+        return group(finder.select("reviewer").where().and(ne("reviewer", null), between("startDate", from, to)).findList(), by(on(Review.class).getReviewer()));
     }
 
     public static Group<Review> reviewersForPeriodByProject(String from, String to) {

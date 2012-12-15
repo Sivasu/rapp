@@ -1,0 +1,555 @@
+.clear {
+    clear: both;
+}
+
+.navigation_list {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+body, select, input, textarea {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body, h1, h2, h3, h4 {
+    padding: 0px;
+    margin: 0px;
+}
+
+body {
+    background: url("../images/page-background.jpg") repeat fixed center center #eeeeee;
+    font-size: 0.8em;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Droid Sans', serif;
+}
+
+h1 {
+    font-size: 32px;
+    color: white;
+}
+
+a {
+    color: #3366cc;
+    text-decoration: none;
+}
+
+a:active {
+    color: #3366cc;
+    text-decoration: none;
+}
+
+a:link {
+    color: #3366cc;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #3366cc;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.page {
+    min-width: 960px;
+    margin: auto;
+    width: 80%;
+    -moz-box-shadow: 0 0 50px #e5e5e5;
+    -webkit-box-shadow: 0 0 50px #e5e5e5;
+    box-shadow: 0 0 50px #e5e5e5;
+    opacity: 0.95;
+}
+
+.page .header {
+    background: transparent url("../images/bg_grey_opacity_75.png");
+    color: #FFFFFF;
+    padding: 10px 10px 0;
+    margin: 0 0 10px;
+}
+
+.page .header .logo {
+    float: left;
+    width: 150px;
+}
+
+.page .header .logoname {
+    margin-left: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.page .header .action {
+    font-weight: bold;
+    float: right;
+    width: 450px;
+    text-align: right;
+    color: white;
+    float: right;
+}
+
+.page .header .action .user_name {
+    color: #fcbd44;
+}
+
+.page .header .action a {
+    color: white;
+    font-weight: normal;
+}
+
+.page .header .action a:visited {
+    color: white;
+    font-weight: normal;
+}
+
+.page .body .notice {
+    background-color: silver;
+    color: red;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 10px;
+    padding: 3px 10px;
+    border: 1px dotted #ffae00;
+}
+
+.page .body .menu {
+    background: url("../images/menu_bg.jpg") repeat scroll 0 0 transparent;
+    border-right: 1px dotted #fcbd44;
+    color: black;
+    font-family: 'Droid Sans', serif;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    background-color: #f3f3f3;
+    -moz-box-shadow: 0 0 20px #eeeeee;
+    -webkit-box-shadow: 0 0 20px #eeeeee;
+    box-shadow: 0 0 20px #eeeeee;
+    margin: 10px 0 25px;
+    border-bottom: 1px solid #cccccc;
+    border-top: 1px solid #cccccc;
+}
+
+.page .body .menu ul {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.page .body .menu ul li {
+    float: left;
+    text-align: center;
+}
+
+.page .body .menu ul li a {
+    display: inline-block;
+    padding: 6px;
+    width: 150px;
+}
+
+.page .body .menu ul li a:hover {
+    color: #000000 !important;
+    text-shadow: 0 0 15px #666666;
+}
+
+.page .body .menu ul li.selected a {
+    background: url("../images/menu_bg_selected.png") repeat scroll 0 0 transparent;
+    color: #000000;
+    text-decoration: underline;
+}
+
+.page .body .menu ul li.selected a:hover {
+    background: url("../images/menu_bg_selected.png") repeat scroll 0 0 transparent;
+    color: #000000;
+    text-decoration: underline;
+}
+
+.page .body .menu ul li.selected a:visited {
+    background: url("../images/menu_bg_selected.png") repeat scroll 0 0 transparent;
+    color: #000000;
+    text-decoration: underline;
+}
+
+.page .body .content {
+    padding-top: 10px;
+}
+
+.page .body .content table {
+    width: 100%;
+}
+
+.page .body .content table thead tr {
+    background-color: #5a5f64;
+    color: #ffffff;
+}
+
+.page .body .content table thead tr th {
+    text-align: left;
+}
+
+.page .body .content table tbody tr.row {
+    background-color: #f8f8ff;
+}
+
+.page .body .content table tbody tr.alt_row {
+    background-color: #dddddd;
+}
+
+.page .body .content .left_nav {
+    float: left;
+    margin: 30px 0px 0px 10px;
+}
+
+.page .body .content .left_nav ul {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.left_nav {
+    background: transparent url("../images/bg_grey_opacity_75.png");
+    color: #FFFFFF;
+}
+
+.page .body .content .left_nav ul li a {
+    color: #ffffff;
+    display: inline-block;
+    padding: 5px;
+    text-decoration: none;
+    width: 200px;
+}
+
+.page .body .content .left_nav ul li.selected a {
+    font-weight: bold;
+    background-color: #a9a9a9;
+    -moz-border-radius: 5px 0px 0px 5px;
+    -webkit-border-radius: 5px 0px 0px 5px;
+    border-radius: 5px 0px 0px 5px;
+    padding-right: 7.5px;
+}
+
+.page .body .content .right_section {
+    border: 2px solid #434343;
+    margin-left: 220px;
+    margin-right: 10px;
+    min-height: 650px;
+    padding: 20px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background-color: #d3d3d3;
+}
+
+.page .body .content .right_section .guidelines {
+    background-color: silver;
+    padding: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    float: right;
+    width: 275px;
+}
+
+.guidelines_full {
+    background-color: silver;
+    padding: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.page .body .content .right_section .guidelines ul {
+    padding: 5px 5px 5px 20px;
+}
+
+.page .body .content .right_section .message {
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.page .body .content .right_section .message .txt {
+    border: 1px dotted #ffae00;
+    background: #fffdd7;
+    display: inline-block;
+    margin: auto;
+    padding: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.page .body .content .right_section .message.info {
+    border: dashed 2px #333332;
+}
+
+.page .body .content .right_section .message.error {
+    border: dashed 2px red;
+    color: red;
+    text-align: left;
+}
+
+.page .body .content .right_section .message.error .txt {
+    background: #ffffff;
+    display: block;
+}
+
+.page .body .content .right_section .message.error .txt li {
+    padding: 5px;
+}
+
+.page .body .content .right_section .form {
+    position: relative;
+}
+
+.page .body .content .right_section .form input.txt {
+    background-color: #f1f1f1;
+    border: solid 1px #4169ae;
+    padding: 3px;
+    -moz-box-shadow: 0 0 10px #eeeeee;
+    -webkit-box-shadow: 0 0 10px #eeeeee;
+    box-shadow: 0 0 10px #eeeeee;
+}
+
+.page .body .content .right_section .form textarea {
+    background-color: #f1f1f1;
+    border: solid 1px #4169ae;
+    padding: 3px;
+    -moz-box-shadow: 0 0 10px #eeeeee;
+    -webkit-box-shadow: 0 0 10px #eeeeee;
+    box-shadow: 0 0 10px #eeeeee;
+}
+
+.page .body .content .right_section .form select {
+    background-color: #f1f1f1;
+    border: solid 1px #4169ae;
+    padding: 3px;
+    -moz-box-shadow: 0 0 10px #eeeeee;
+    -webkit-box-shadow: 0 0 10px #eeeeee;
+    box-shadow: 0 0 10px #eeeeee;
+}
+
+.page .body .content .right_section .form select {
+    width: 68%;
+}
+
+.page .body .content .right_section .form input.txt {
+    width: 45%;
+    margin-bottom: 5px;
+}
+
+.page .body .content .right_section .form input.txt.field_with_errors {
+    border: solid 2px red;
+}
+
+.page .body .content .right_section .form textarea {
+    margin-top: 5px;
+    height: 100px;
+    width: 95%;
+}
+
+.page .body .content .right_section .form .section {
+    margin-bottom: 25px;
+}
+
+.page .body .content .right_section .form .section h4 {
+    margin: 10px 0px;
+}
+
+.page .body .content .right_section .form .section.report .parameter {
+    margin: 10px;
+    display: block;
+}
+
+.page .body .content .right_section .form .section.auto_width select {
+    width: auto;
+}
+
+.page .body .content .right_section .form .section.action {
+    text-align: left;
+}
+
+.page .body .content .right_section .form .section.action input {
+    width: 100px;
+}
+
+.page .body .content .right_section .form .section.action.discard {
+    margin-bottom: 25px;
+    position: absolute;
+    right: 9%;
+    bottom: 0px;
+}
+
+.page .body .content .right_section .form.feedback .section.action.discard {
+    margin-bottom: 0;
+}
+
+.page .body .content .right_section .form .label {
+    float: left;
+    margin: 0 7px;
+    font-weight: bold;
+    width: 20%;
+}
+
+.page .body .content .right_section .form .label.free_flow {
+    width: auto !important;
+    margin: 0 0;
+}
+
+.page .body .content .right_section .form hr {
+    color: #ffffff;
+}
+
+.page .body .content .right_section .form .field_with_errors {
+    display: inline-block;
+}
+
+.page .body .content .right_section .form .field_with_errors input.txt {
+    border: solid 2px red;
+}
+
+.page .body .content .right_section .form .field_with_errors textarea {
+    border: solid 2px red;
+}
+
+.page .body .content .right_section .form .field_with_errors select {
+    border: solid 2px red;
+}
+
+.page .body .content .right_section .form.feedback {
+    margin-right: 305px;
+}
+
+.page .body .content .right_section .form.type_1 .label {
+    display: inline-block;
+    text-align: left;
+    width: 145px;
+}
+
+.page .body .content .right_section .form.type_2 .label {
+    display: inline-block;
+    width: 145px;
+}
+
+.page .body .content .right_section .form.type_2 .sub_header .label {
+    display: inline-block;
+    text-align: left;
+    width: 90px;
+    margin-right: 15px;
+}
+
+.page .body .content .right_section .form.type_2 .multi_line .label {
+    float: left;
+    text-align: left;
+    width: 350px;
+}
+
+.page .body .content .right_section .form.type_2 .multi_line .details {
+    margin-left: 370px;
+    word-break: break-word;
+}
+
+.page .body .content .right_section .col_1 {
+    float: left;
+    width: 50%;
+}
+
+.page .body .content .right_section .col_2 {
+    float: left;
+    width: 48%;
+}
+
+.page .body .content.without_left_nav .right_section {
+    border: solid 0px;
+    margin-left: 10px;
+}
+
+.page .footer {
+    background-color: transparent;
+    height: 30px;
+}
+
+.form.review {
+    float: left;
+    margin-left: 10px;
+    width: 100%;
+}
+
+.page .body .content .right_section .guidelines.review {
+    float: right;
+    width: 98%;
+}
+
+.page .body .content .right_section .review_form .section .label {
+    width: 35%;
+    margin: 0 20px 0 0;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.guidelines.review h4 {
+    font-size: 14px
+}
+
+input#comment, input#performance_rating_comment {
+    height: 24px;
+    width: 68%;
+}
+
+.display_none {
+    display: none;
+}
+
+.width_20_percent {
+    width: 20% !important;
+}
+
+.float_left {
+    float: left;
+}
+
+.center {
+    text-align: center;
+}
+
+.padding_bottom {
+    padding-bottom: 10px;
+}
+
+.blue {
+    color: #00008b;
+}
+
+.review_section {
+    padding-left: 5px;
+    border: 1px dotted;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.review_header_section {
+    padding-top: 5px;
+    text-decoration: underline;
+}
+
+.expectation_txt_area {
+    height: 400px !important;
+    font-size: 15px;
+}
+
+.expectation_view_lbl_area {
+    width: 95% !important;
+    text-align: justify;
+}
+
+.view_expectation_form {
+    overflow-y: auto;
+}

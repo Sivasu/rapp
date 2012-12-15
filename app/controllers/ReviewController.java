@@ -12,14 +12,11 @@ import views.html.contributors_by_month;
 import views.html.project_contributions;
 import views.html.reviews_by_month;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
-import static ch.lambdaj.Lambda.on;
-import static ch.lambdaj.Lambda.selectMax;
-import static ch.lambdaj.group.Groups.by;
-import static ch.lambdaj.group.Groups.group;
+import static ch.lambdaj.Lambda.*;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 
 public class ReviewController extends Controller {
     private static String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
@@ -28,7 +25,7 @@ public class ReviewController extends Controller {
         return ok(reviews_by_month.render(""));
     }
 
-    public static Result contributorsByMonth() {
+    public static Result contributorsOfLastMonth() {
         return ok(contributors_by_month.render(""));
     }
 
@@ -48,33 +45,34 @@ public class ReviewController extends Controller {
     }
 
     @BodyParser.Of(play.mvc.BodyParser.Json.class)
-    public static Result contributorsByMonthJson() {
-        Group<Review> reviewGroup = Review.allReviewsByMonth();
-        ObjectNode result = Json.newObject();
-        for (String month : months) {
-            List<Review> reviews = reviewGroup.find(month);
-            Group<Review> groupByReviewer = group(reviews, by(on(Review.class).getReviewer()));
-            Group<Review> reviewer = selectMax(groupByReviewer.subgroups(), on(Group.class).getSize());
-            if (reviewer != null && reviewer.findAll().get(0) != null) {
-                Reviewer mostContributorOfTheMonth = reviewer.findAll().get(0).reviewer;
-                Map<String, String> strings = new HashMap<String, String>();
-                strings.put(mostContributorOfTheMonth.name, String.valueOf(reviewer.getSize()));
-                result.put(month, Json.toJson(strings));
-            }
-        }
-        return ok(result);
+    public static Result contributorsOfLastMonthJson() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -1);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        String from = new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime());
+        calendar.add(Calendar.MONTH, 1);
+        String to = new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime());
+        System.out.println(from);
+        System.out.println(to);
+        return contributorForPeriodJson(from, to, 1);
     }
 
     @BodyParser.Of(play.mvc.BodyParser.Json.class)
-    public static Result contributorForPeriodJson(String from, String to) {
+    public static Result contributorForPeriodJson(String from, String to, int minInterviews) {
         Group<Review> groupByReviewer = Review.reviewsForPeriodByReviewer(from, to);
-        ObjectNode result = Json.newObject();
-        Group<Review> reviewer = selectMax(groupByReviewer.subgroups(), on(Group.class).getSize());
-        if (reviewer != null && reviewer.findAll().get(0) != null) {
-            Reviewer mostContributor = reviewer.findAll().get(0).reviewer;
-            result.put(mostContributor.name, reviewer.getSize());
+        List<Map<String, String>> contributors = new ArrayList<>();
+        List<Group<Review>> reviewer = filter(having(on(Group.class).getSize(), greaterThanOrEqualTo(minInterviews)), groupByReviewer.subgroups());
+        for (Group<Review> reviewGroup : reviewer) {
+            if (reviewGroup.findAll().get(0) != null) {
+                Reviewer contributor = reviewGroup.findAll().get(0).reviewer;
+                Map<String, String> contributorMap = new HashMap<>();
+                contributorMap.put("text", contributor.name);
+                contributorMap.put("weight", String.valueOf(Math.random() % 5));
+                contributors.add(contributorMap);
+            }
         }
-        return ok(result);
+
+        return ok(Json.toJson(contributors));
     }
 
     @BodyParser.Of(play.mvc.BodyParser.Json.class)
