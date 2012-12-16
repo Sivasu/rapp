@@ -19,7 +19,7 @@ public class CandidateDataSync implements Runnable {
         Logger.info("syncCandidateData called");
         Akka.system().scheduler().schedule(
                 Duration.create(0, TimeUnit.MILLISECONDS),
-                Duration.create(1, TimeUnit.MINUTES),
+                Duration.create(60, TimeUnit.MINUTES),
                 getInstance()
         );
     }
