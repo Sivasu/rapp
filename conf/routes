@@ -3,8 +3,8 @@
 # ~~~~
 
 # Home page
-GET     /                                                   controllers.Application.index()
-GET     /home                                               controllers.Application.home()
+GET     /                                                   controllers.Application.home()
+GET     /index                                               controllers.Application.index()
 GET     /reviews_by_month                                   controllers.ReviewController.reviewsByMonth()
 GET     /contributors_of_last_month                         controllers.ReviewController.contributorsOfLastMonth()
 GET     /contributors_of_last_month/json                    controllers.ReviewController.contributorsOfLastMonthJson()
