@@ -85,14 +85,15 @@ public class ReviewController extends Controller {
 
     @BodyParser.Of(play.mvc.BodyParser.Json.class)
     public static Result projectContributionJson(String from, String to) {
-        ObjectNode result = Json.newObject();
+        List<List> projectContributions = new ArrayList<>();
+        projectContributions.add(Arrays.asList("Projects", "Reviews"));
         Group<Review> reviewGroup = Review.reviewersForPeriodByProject(from, to);
         for (String groupKey : reviewGroup.keySet()) {
             List<Review> reviews = reviewGroup.find(groupKey);
             groupKey = groupKey.replace("\"", "");
-            result.put(groupKey, reviews.size());
+            projectContributions.add(Arrays.asList(groupKey, reviews.size()));
         }
-        return ok(result);
+        return ok(Json.toJson(projectContributions));
     }
 
 

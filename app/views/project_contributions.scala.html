@@ -1,30 +1,32 @@
 @(message: String)
 
 @main("Welcome to Play 2.0") {
-<script type="text/javascript" src="http://jseasycharts.googlecode.com/files/jseasycharts.min.js"></script>
 <div class="content without_left_nav">
     <div class="right_section">
-        <div id="chart" style="width: 1500px; height: 600px;"></div>
+        <div id="chart_div" style="width: 900px; height: 500px;"></div>
     </div>
     <div class="clear"></div>
 </div>
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
-    $.getJSON(
-            'project_contributions/2012-01-01/2012-12-01/json',
-            function (data) {
-                var keys = [];
-                for (var key in data) {
-                    keys.push(key + '-' + data[key]);
-                }
-                jsEasyCharts.pie(
-                        'chart',
-                        data,
-                        {
-                            labels:keys,
-                            size:'750x300'
-                        }
-                );
-            }
-    );
+    google.load("visualization", "1", {packages:["corechart"]});
+    google.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        $.getJSON(
+                'project_contributions/2012-01-01/2012-12-01/json',
+                function (data) {
+                    var data = google.visualization.arrayToDataTable(data);
+
+                    var options = {
+                        title:'Project Contributions'
+                    };
+
+                    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                    chart.draw(data, options);
+                });
+    }
 </script>
+
 }
