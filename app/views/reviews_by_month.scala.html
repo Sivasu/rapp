@@ -1,35 +1,35 @@
 @(message: String)
 
 @main("Welcome to Play 2.0") {
-<script type="text/javascript" src="http://jseasycharts.googlecode.com/files/jseasycharts.min.js"></script>
 <div class="content without_left_nav">
     <div class="right_section">
-        <div id="bar5" style="width: 900px; height: 500px;"></div>
+        <div id="visualization" style="width: 500px; height: 400px;"></div>
     </div>
     <div class="clear"></div>
 </div>
 
+
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
 <script type="text/javascript">
-    $.getJSON(
-            'reviews_by_month/json',
-            function (data) {
-                jsEasyCharts.bar(
-                        'bar5',
-                        data,
-                        {
-                            type:'vertical',
-                            size:'750x300',
-                            barWidth:50,
-                            barSpacing:5,
-                            dataScaling:{
-                                top:50,
-                                bottom:0
-                            },
-                            axisLabels:[ '0', '5', '10',
-                                '20', '30', '40', '50']
-                        }
-                );
-            }
-    );
+    google.load('visualization', '1', {packages:['corechart']});
+</script>
+<script type="text/javascript">
+    function drawVisualization() {
+        $.getJSON(
+                'reviews_by_month/json',
+                function (data) {
+                    // Create and populate the data table.
+                    var data = google.visualization.arrayToDataTable(data);
+
+                    // Create and draw the visualization.
+                    new google.visualization.LineChart(document.getElementById('visualization')).
+                            draw(data, {curveType:"function",
+                                width:900, height:400,
+                                vAxis:{maxValue:10}}
+                    );
+                });
+
+    }
+    google.setOnLoadCallback(drawVisualization);
 </script>
 }

@@ -4,15 +4,18 @@
 
 # Home page
 GET     /                                                   controllers.Application.home()
-GET     /index                                               controllers.Application.index()
+GET     /index                                              controllers.Application.index()
 GET     /reviews_by_month                                   controllers.ReviewController.reviewsByMonth()
 GET     /contributors_of_last_month                         controllers.ReviewController.contributorsOfLastMonth()
-GET     /contributors_of_last_month/json                    controllers.ReviewController.contributorsOfLastMonthJson()
 GET     /project_contributions                              controllers.ReviewController.projectContributions()
+GET     /turn_around_time                                   controllers.ReviewController.turnAround()
+
 GET     /reviews_by_month/json                              controllers.ReviewController.reviewsByMonthJson()
+GET     /contributors_of_last_month/json                    controllers.ReviewController.contributorsOfLastMonthJson()
 GET     /contributors/between/:from/:to/:min_reviews/json   controllers.ReviewController.contributorForPeriodJson(from: String, to: String, min_reviews: Int)
 GET     /average_turn_around/:from/:to/json                 controllers.ReviewController.turnAroundDaysForPeriodJson(from: String,to: String)
 GET     /project_contributions/:from/:to/json               controllers.ReviewController.projectContributionJson(from: String,to: String)
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

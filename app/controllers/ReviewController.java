@@ -11,6 +11,7 @@ import play.mvc.Result;
 import views.html.contributors_by_month;
 import views.html.project_contributions;
 import views.html.reviews_by_month;
+import views.html.turn_around_time;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -33,15 +34,22 @@ public class ReviewController extends Controller {
         return ok(project_contributions.render(""));
     }
 
+    public static Result turnAround() {
+        return ok(turn_around_time.render());
+    }
+
     @BodyParser.Of(play.mvc.BodyParser.Json.class)
     public static Result reviewsByMonthJson() {
+        List<List> reviewsByMonth = new ArrayList<>();
+        reviewsByMonth.add(Arrays.asList("x", "Reviews", "Conversion Ratio"));
         Group<Review> reviewGroup = Review.allReviewsByMonth();
-        ObjectNode result = Json.newObject();
         for (String month : months) {
             List<Review> reviews = reviewGroup.find(month);
-            result.put(month, reviews == null ? 0 : reviews.size());
+            int pursued = filter(having(on(Review.class).result), reviews).size();
+            int reviewCount = reviews == null ? 0 : reviews.size();
+            reviewsByMonth.add(Arrays.asList(month, reviewCount, Math.round((pursued / (double) reviewCount) * 100)));
         }
-        return ok(result);
+        return ok(Json.toJson(reviewsByMonth));
     }
 
     @BodyParser.Of(play.mvc.BodyParser.Json.class)
