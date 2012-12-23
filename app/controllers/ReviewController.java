@@ -41,13 +41,15 @@ public class ReviewController extends Controller {
     @BodyParser.Of(play.mvc.BodyParser.Json.class)
     public static Result reviewsByMonthJson() {
         List<List> reviewsByMonth = new ArrayList<>();
-        reviewsByMonth.add(Arrays.asList("x", "Reviews", "Conversion Ratio"));
+        reviewsByMonth.add(Arrays.asList("x", "Reviews", "Conversion Ratio", "Turn Around Days"));
         Group<Review> reviewGroup = Review.allReviewsByMonth();
+        Map<String, Double> turnAroundDaysByMonth = Review.averageTurnAroundDaysByMonth();
         for (String month : months) {
             List<Review> reviews = reviewGroup.find(month);
             int pursued = filter(having(on(Review.class).result), reviews).size();
             int reviewCount = reviews == null ? 0 : reviews.size();
-            reviewsByMonth.add(Arrays.asList(month, reviewCount, Math.round((pursued / (double) reviewCount) * 100)));
+            reviewsByMonth.add(Arrays.asList(month, reviewCount
+                    , Math.round((pursued / (double) reviewCount) * 100), turnAroundDaysByMonth.get(month)));
         }
         return ok(Json.toJson(reviewsByMonth));
     }
@@ -60,8 +62,6 @@ public class ReviewController extends Controller {
         String from = new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime());
         calendar.add(Calendar.MONTH, 1);
         String to = new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime());
-        System.out.println(from);
-        System.out.println(to);
         return contributorForPeriodJson(from, to, 1);
     }
 
@@ -89,6 +89,12 @@ public class ReviewController extends Controller {
         ObjectNode result = Json.newObject();
         result.put("avg_turn_around", avgTurnAround);
         return ok(result);
+    }
+
+    @BodyParser.Of(play.mvc.BodyParser.Json.class)
+    public static Result turnAroundDaysByMonthJson() {
+        Map<String, Double> trunAroundDaysByMonth = Review.averageTurnAroundDaysByMonth();
+        return ok(Json.toJson(trunAroundDaysByMonth));
     }
 
     @BodyParser.Of(play.mvc.BodyParser.Json.class)

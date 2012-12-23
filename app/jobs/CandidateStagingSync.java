@@ -32,7 +32,7 @@ public class CandidateStagingSync {
 
             Document doc = Jsoup.connect(AppProperties.CANDIDATE_URL).timeout(0).get();
 
-            Iterator<Element> rows = doc.select("table").first().select("tr").iterator();
+            Iterator<Element> rows = doc.select("table").first().select("f").iterator();
             String[] record = new String[17];
             rows.next();
             while (rows.hasNext()) {

@@ -14,6 +14,7 @@ GET     /reviews_by_month/json                              controllers.ReviewCo
 GET     /contributors_of_last_month/json                    controllers.ReviewController.contributorsOfLastMonthJson()
 GET     /contributors/between/:from/:to/:min_reviews/json   controllers.ReviewController.contributorForPeriodJson(from: String, to: String, min_reviews: Int)
 GET     /average_turn_around/:from/:to/json                 controllers.ReviewController.turnAroundDaysForPeriodJson(from: String,to: String)
+GET     /turn_around_days_by_month/json                     controllers.ReviewController.turnAroundDaysByMonthJson()
 GET     /project_contributions/:from/:to/json               controllers.ReviewController.projectContributionJson(from: String,to: String)
 
 

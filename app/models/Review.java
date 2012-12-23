@@ -8,7 +8,9 @@ import play.db.ebean.Model;
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static ch.lambdaj.Lambda.on;
 import static ch.lambdaj.Lambda.sumFrom;
@@ -53,6 +55,19 @@ public class Review extends Model {
         List<Review> list = finder.select("startDate,endDate").where().ne("startDate", "NULL")
                 .ge("datediff(endDate,startDate)", 0).between("startDate", from, to).findList();
         return sumFrom(list).turnAroundDays() * 1d / list.size();
+    }
+
+    public static Map<String, Double> averageTurnAroundDaysByMonth() {
+        List<Review> list = finder.select("startDate,endDate").where().ne("startDate", "NULL")
+                .ge("datediff(endDate,startDate)", 0).findList();
+        Group<Review> group = group(list, by(on(Review.class).getMonth()));
+        Map<String, Double> turnAroundDaysByMonth = new HashMap<>();
+        for (String month : group.keySet()) {
+            List<Review> reviews = group.find(month);
+            double turnAroundDays = sumFrom(reviews).turnAroundDays() * 1d / reviews.size();
+            turnAroundDaysByMonth.put(month, turnAroundDays);
+        }
+        return turnAroundDaysByMonth;
     }
 
     public int turnAroundDays() {
